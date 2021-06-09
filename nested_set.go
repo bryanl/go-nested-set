@@ -257,7 +257,9 @@ func MoveTo(db *gorm.DB, node, to interface{}, direction MoveDirection) error {
 func moveIsValid(node, to nestedItem) error {
 	validLft, validRgt := node.Lft, node.Rgt
 	if (to.Lft >= validLft && to.Lft <= validRgt) || (to.Rgt >= validLft && to.Rgt <= validRgt) {
-		return fmt.Errorf("in valid move target: %v => %v", node, to)
+		nodeStr := fmt.Sprintf("node[%d:%d]", node.Lft, node.Rgt)
+		toStr := fmt.Sprintf("node[%d:%d]", to.Lft, to.Rgt)
+		return fmt.Errorf("invalid move target: %s => %s", nodeStr, toStr)
 	}
 
 	return nil
